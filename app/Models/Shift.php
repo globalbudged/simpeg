@@ -6,8 +6,7 @@ use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Golongan extends Model
+class Shift extends Model
 {
     use HasFactory, HasUuid;
-    protected $guarded = ['id'];
 }

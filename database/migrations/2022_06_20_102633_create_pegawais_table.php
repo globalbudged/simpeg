@@ -15,18 +15,18 @@ class CreatePegawaisTable extends Migration
     {
         Schema::create('pegawais', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('nik')->unique()->nullable();
             $table->string('nip')->unique()->nullable();
             $table->string('nama')->nullable();
-            $table->string('tempat_lahir')->nullable();
-            $table->string('tanggal_lahir')->nullable();
             $table->string('alamat')->nullable();
-            $table->string('status')->nullable();
-            $table->string('jabatan')->nullable();
-            $table->string('golongan')->nullable();
-            $table->string('bagian')->nullable();
-            $table->string('image')->nullable();
+            $table->string('tempat_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->enum('gender', ['L', 'P']);
+            $table->string('tmt')->nullable();
+            $table->string('contact')->nullable();
+            $table->string('flag')->nullable();
             $table->timestamps();
         });
     }

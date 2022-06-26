@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBagiansTable extends Migration
+class CreateJurusansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateBagiansTable extends Migration
      */
     public function up()
     {
-        Schema::create('bagians', function (Blueprint $table) {
+        Schema::create('jurusans', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('nama')->nullable();
-            $table->string('keterangan')->nullable();
             $table->string('flag')->nullable();
             $table->timestamps();
         });
@@ -30,6 +29,6 @@ class CreateBagiansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bagians');
+        Schema::dropIfExists('jurusans');
     }
 }
