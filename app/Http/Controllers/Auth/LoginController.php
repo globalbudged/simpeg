@@ -31,6 +31,8 @@ class LoginController extends Controller
 
        $token = $user->createToken($request->device_name)->plainTextToken;
 
+       $user->log('LOGIN');
+
        $response = [
         'message'=> 'success',
         'user'=> $user,
@@ -43,13 +45,9 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $user = $request->user();
-        // $user->currentAccessToken()->delete();
+        $user->currentAccessToken()->delete();
+        $user->log('LOGOUT');
         return response()->json(['message'=>$request->header()], 201);
-    //    try {
-    //     return response()->json(['message'=>$request->all()], 201);
-    //    } catch (\Throwable $th) {
-    //     return response()->json(['message'=>$th], 201);
-    //    }
     }
     public function check()
     {

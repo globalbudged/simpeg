@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BagianController;
+use App\Http\Controllers\PercobaanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +19,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/coba', [BagianController::class, 'index']);
+Route::get('/coba', [PercobaanController::class, 'index']);

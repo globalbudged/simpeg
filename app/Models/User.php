@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
 use App\Models\Traits\HasUuid;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -45,6 +47,39 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // logsActivity
+    protected static $logAttributes = ['name', 'email', 'password'];
+    protected static $logName = 'user';
+    protected static $logOnlyDirty = true;
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "User History {$eventName}";
+    }
 
+
+
+    public function pegawai()
+    {
+       return $this->hasOne(Pegawai::class);
+    }
+    public function audit_log()
+    {
+       return $this->hasOne(AuditLog::class);
+    }
+
+    public function log($message)
+    {
+        $message = ucwords($message);
+        $data = [
+            'user_id'=>$this->id,
+            'name'=>$this->name,
+            'date'=>Carbon::parse(now())->toString(),
+            'activity'=> $message
+            // 'activity'=>"{$this->name} $message"
+        ];
+       AuditLog::query()->create($data);
+    }
+
+    
     
 }
