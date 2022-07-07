@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Jabatan;
+use App\Models\Ruangan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class JabatanController extends Controller
+class RuanganController extends Controller
 {
     public function index()
     {
-        $data = Jabatan::orderBy(request('order_by'), request('sort'))
+        $data = Ruangan::orderBy(request('order_by'), request('sort'))
                 ->filter(request(['q']))
                 ->paginate(request('per_page'));
 
@@ -37,27 +37,29 @@ class JabatanController extends Controller
             // DATA BARU
             if (!$request->has('id')) {
                 
-                $data = Jabatan::create([
-                    'nama'=>$request->nama,
-                    'keterangan'=>$request->keterangan,
+                $data = Ruangan::create([
+                    'gedung'=>$request->gedung,
+                    'lantai'=>$request->lantai,
+                    'ruangan'=>$request->ruangan,
                     'flag'=>$request->flag,
                 ]);
 
                 
-                $auth->log("Memasukkan data JABATAN {$data->nama}");
+                $auth->log("Memasukkan data RUANGAN {$data->gedung}");
 
             // UPDATE DATA 
             } else {
 
-                $data = Jabatan::find($request->id);
+                $data = Ruangan::find($request->id);
                 // update data pegawai
                 $data->update([
-                    'nama'=>$request->nama,
-                    'keterangan'=>$request->keterangan,
+                    'gedung'=>$request->gedung,
+                    'lantai'=>$request->lantai,
+                    'ruangan'=>$request->ruangan,
                     'flag'=>$request->flag,
                 ]);
 
-                $auth->log("Merubah data JABATAN {$data->nama}");
+                $auth->log("Merubah data RUANGAN {$data->gedung}");
             }
         
             DB::commit();
@@ -83,12 +85,12 @@ class JabatanController extends Controller
         $id = $request->id;
         
         if (is_array($id)) {
-            $data = Jabatan::whereIn('id', $id);
+            $data = Ruangan::whereIn('id', $id);
             $query = collect($data->get())->filter(function($item){
                 return $item->id;
             });
             $ids = $query->pluck('id');
-            $nama_ = $query->pluck('nama');
+            $gedung_ = $query->pluck('gedung');
             $_deletes = User::destroy($ids);
             if (!$_deletes) {
                 return response()->json([
@@ -97,13 +99,13 @@ class JabatanController extends Controller
             }
             
             
-            $user->log("Menghapus Data Jabatan {$nama_}");
+            $user->log("Menghapus Data Ruangan {$gedung_}");
             return response()->json([
                 'result'=> $ids,
                 'message' => 'Sukses! Data Terhapus Semua'
             ],200); 
         } else {
-            $data = Jabatan::find($id);
+            $data = Ruangan::find($id);
             $del = $data->delete();
             // $del = User::destroy($data->user_id);
             if (!$del) {
@@ -112,7 +114,7 @@ class JabatanController extends Controller
                 ],500);
             }
 
-            $user->log("Menghapus Data Jabatan {$data->nama}");
+            $user->log("Menghapus Data Ruangan {$data->gedung}");
             return response()->json([
                 'message' => 'Data sukses terhapus'
             ],200); 

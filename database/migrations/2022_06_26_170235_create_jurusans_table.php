@@ -17,6 +17,7 @@ class CreateJurusansTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('nama')->nullable();
+            $table->string('profesi')->nullable();
             $table->string('flag')->nullable();
             $table->timestamps();
         });

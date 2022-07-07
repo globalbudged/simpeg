@@ -166,6 +166,8 @@ class PegawaiController extends Controller
          * $flight->history()->forceDelete();
          * 
          */
+
+       
         $user = $request->user();
         $id = $request->id;
         $auth = auth()->user()->id;

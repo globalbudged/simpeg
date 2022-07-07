@@ -62,7 +62,7 @@ class PendidikanController extends Controller
         
             DB::commit();
            /* Transaction successful. */
-            return response()->json(['message'=>'Success', 'result'=> $request->all()],201);
+            return response()->json(['message'=>'Good Job! Data Sudah tersimpan', 'result'=> $request->all()],201);
         }catch(\Exception $e){       
         
             DB::rollback();
