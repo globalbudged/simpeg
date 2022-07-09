@@ -37,12 +37,14 @@ class RuanganController extends Controller
             // DATA BARU
             if (!$request->has('id')) {
                 
-                $data = Ruangan::create([
+                $data = Ruangan::firstOrCreate(
+                    [
                     'gedung'=>$request->gedung,
                     'lantai'=>$request->lantai,
-                    'ruangan'=>$request->ruangan,
-                    'flag'=>$request->flag,
-                ]);
+                    'ruangan'=>$request->ruangan
+                    ],
+                    ['flag'=>$request->flag]
+                );
 
                 
                 $auth->log("Memasukkan data RUANGAN {$data->gedung}");
@@ -59,12 +61,12 @@ class RuanganController extends Controller
                     'flag'=>$request->flag,
                 ]);
 
-                $auth->log("Merubah data RUANGAN {$data->gedung}");
+                $auth->log("Merubah data RUANGAN {$data->gedung} - {$data->lantai} {$data->ruangan}");
             }
         
             DB::commit();
            /* Transaction successful. */
-            return response()->json(['message'=>'Good Job! Data Sudah tersimpan', 'result'=> $request->all()],201);
+            return response()->json(['message'=>'Good Job! Data Sudah tersimpan', 'result'=> $data],201);
         }catch(\Exception $e){       
         
             DB::rollback();

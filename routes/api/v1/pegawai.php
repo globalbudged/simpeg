@@ -10,6 +10,7 @@ Route::middleware('auth:sanctum')
     Route::post('/pegawai/delete_data', [PegawaiController::class, 'destroy']);
     // Route::post('/pegawai/edit_data', [PegawaiController::class, 'edit']);
     Route::post('/pegawai/adding_data', [PegawaiController::class, 'store']);
+    Route::post('/pegawai/checking', [PegawaiController::class, 'checking']);
 });
 
 // Route::get('/users', [UserController::class, 'index']);

@@ -17,13 +17,14 @@ class CreateMutationsTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('kode_mutasi')->nullable();
-            $table->string('no_mutasi')->nullable();
-            $table->string('no_surat')->nullable();
+            $table->string('no_mutasi')->unique()->nullable();
+            $table->string('no_surat')->unique()->nullable();
             $table->date('tgl_surat')->nullable();
             $table->date('tgl_mutasi')->nullable();
             $table->date('tgl_entry')->nullable();
             $table->unsignedBigInteger('jenis_kepegawaian_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->smallInteger('flag')->default(0)->comment('0 : belum valid, 1 : valid');
             $table->timestamps();
         });
     }

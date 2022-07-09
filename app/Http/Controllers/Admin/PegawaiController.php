@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Pegawai;
 use App\Models\User;
+use App\Repositories\PegawaiRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class PegawaiController extends Controller
 {
@@ -43,7 +45,7 @@ class PegawaiController extends Controller
         return response()->json($response, 201);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, PegawaiRepository $repository)
     {
         $auth = $request->user();
 
@@ -71,26 +73,9 @@ class PegawaiController extends Controller
                     'name' => $request->nama,
                     'password' => Hash::make($password)
                 ]);
-                $user->pegawai()->create([
-                    'nip'=>$request->nip,
-                    'nik'=>$request->nik,
-                    'nama'=>$request->nama,
-                    'alamat'=>$request->alamat,
-                    'provinsi'=>$request->provinsi,
-                    'kabkot'=>$request->kabkot,
-                    'kecamatan'=>$request->kecamatan,
-                    'kelurahan'=>$request->kelurahan,
-                    'kodepos'=>$request->kodepos,
-                    'tempat_lahir'=>$request->tempat_lahir,
-                    'tanggal_lahir'=>$request->tanggal_lahir,
-                    'agama'=>$request->agama,
-                    'gender'=>$request->gender,
-                    'tmt'=>$request->tmt,
-                    'contact'=>$request->contact,
-                    'pendidikan'=>$request->pendidikan,
-                    'flag'=>$request->flag,
-                    'user_id'=>$user->id
-                ]);
+                $user->pegawai()->create($request->only([
+                    'nip','nik','nama','alamat', 'provinsi','kabkot','kecamatan','kelurahan','kodepos','tempat_lahir','agama','gender','tmt','contact','pendidikan','flag',
+                ]));
 
                 
                 $auth->log("Memasukkan data PEGAWAI {$user->name}");
@@ -147,6 +132,14 @@ class PegawaiController extends Controller
     {
        $data = $request->all();
        return response()->json(['message'=>'Success', 'result'=> $data],200);
+    }
+    public function checking(Request $request)
+    {
+        $request->validate([
+            'nip' => 'unique:pegawais',
+            'nik' => 'unique:pegawais',
+        ]);
+       return response()->json(['message'=>'save / continue'],201);
     }
 
     public function destroy(Request $request)

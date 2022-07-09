@@ -37,11 +37,10 @@ class GolonganController extends Controller
             // DATA BARU
             if (!$request->has('id')) {
                 
-                $data = Golongan::create([
-                    'nama'=>$request->nama,
-                    'keterangan'=>$request->keterangan,
-                    'flag'=>$request->flag,
-                ]);
+                $data = Golongan::firstOrCreate(
+                    ['nama'=>$request->nama, 'keterangan'=>$request->keterangan],
+                    ['flag'=>$request->flag]
+                );
 
                 
                 $auth->log("Memasukkan data GOLONGAN {$data->nama}");
@@ -62,7 +61,7 @@ class GolonganController extends Controller
         
             DB::commit();
            /* Transaction successful. */
-            return response()->json(['message'=>'Good Job! Data Sudah tersimpan', 'result'=> $request->all()],201);
+            return response()->json(['message'=>'Good Job! Data Sudah tersimpan', 'result'=> $data],201);
         }catch(\Exception $e){       
         
             DB::rollback();

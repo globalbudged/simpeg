@@ -20,14 +20,17 @@ class Pegawai extends Model
        return $this->belongsTo(User::class); // ini di tabel user gak ada pegawai_id nya
     }
 
+    public function mutation_details()
+    {
+        return $this->hasMany(MutasiDetail::class);
+    }
+
     public function scopeFilter($search, array $reqs)
     {
-        // if (isset($reqs['q'])? $reqs['q']:false) {
-        //     return $search->where('nama', 'LIKE', '%' . $reqs['q'] . '%');
-        // }
-
         $search->when($reqs['q']??false, function($search, $query){
             return $search->where('nama', 'LIKE', '%' . $query . '%');
         });
     }
+
+    
 }

@@ -37,11 +37,13 @@ class JurusanController extends Controller
             // DATA BARU
             if (!$request->has('id')) {
                 
-                $data = Jurusan::create([
+                $data = Jurusan::firstOrCreate(
+                    [
                     'nama'=>$request->nama,
                     'profesi'=>$request->profesi,
-                    'flag'=>$request->flag,
-                ]);
+                    ],
+                    ['flag'=>$request->flag]
+                );
 
                 
                 $auth->log("Memasukkan data JURUSAN {$data->nama}");
@@ -62,7 +64,7 @@ class JurusanController extends Controller
         
             DB::commit();
            /* Transaction successful. */
-            return response()->json(['message'=>'Good Job! Data Sudah tersimpan', 'result'=> $request->all()],201);
+            return response()->json(['message'=>'Good Job! Data Sudah tersimpan', 'result'=> $data],201);
         }catch(\Exception $e){       
         
             DB::rollback();

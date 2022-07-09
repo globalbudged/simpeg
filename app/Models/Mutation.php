@@ -12,10 +12,18 @@ class Mutation extends Model
     
     protected $guarded = ['id'];
 
+
+
     public function scopeFilter($search, array $reqs)
     {
         $search->when($reqs['q']??false, function($search, $query){
             return $search->where('nama', 'LIKE', '%' . $query . '%');
         });
+    }
+
+
+    public function mutasi_details()
+    {
+       return $this->hasMany(MutasiDetail::class);
     }
 }

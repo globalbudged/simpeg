@@ -37,11 +37,10 @@ class BagianController extends Controller
             // DATA BARU
             if (!$request->has('id')) {
                 
-                $data = Bagian::create([
-                    'nama'=>$request->nama,
-                    'keterangan'=>$request->keterangan,
-                    'flag'=>$request->flag,
-                ]);
+                $data = Bagian::firstOrCreate(
+                    ['nama'=>$request->nama, 'keterangan'=>$request->keterangan],
+                    ['flag'=>$request->flag]
+                );
 
                 
                 $auth->log("Memasukkan data BAGIAN {$data->nama}");
