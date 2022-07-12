@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\JabatanController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')
+Route::middleware(['auth:sanctum', 'cache_response'])
 ->group( function(){
     Route::get('/jabatan', [JabatanController::class, 'index']);
     Route::post('/jabatan/delete_data', [JabatanController::class, 'destroy']);

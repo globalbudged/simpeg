@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\PendidikanController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')
+Route::middleware(['auth:sanctum', 'cache_response'])
 ->group( function(){
     Route::get('/pendidikan', [PendidikanController::class, 'index']);
     Route::post('/pendidikan/delete_data', [PendidikanController::class, 'destroy']);

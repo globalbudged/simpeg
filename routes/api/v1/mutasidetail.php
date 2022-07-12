@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\MutationController;
 use App\Http\Controllers\Admin\MutasiDetailController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')
+Route::middleware(['auth:sanctum', 'cache_response'])
 ->group( function(){
     // Route::get('/mutasi', [MutationController::class, 'index']);
     // Route::get('/mutasi_by_uuid', [MutationController::class, 'data_by_uuid']);

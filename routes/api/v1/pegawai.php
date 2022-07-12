@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\PegawaiController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')
+Route::middleware(['auth:sanctum', 'cache_response'])
 ->group( function(){
     Route::get('/pegawai', [PegawaiController::class, 'index']);
     Route::post('/pegawai/delete_data', [PegawaiController::class, 'destroy']);

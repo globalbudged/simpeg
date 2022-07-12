@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\JenisKepegawaianController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')
+Route::middleware(['auth:sanctum', 'cache_response'])
 ->group( function(){
     Route::get('/jeniskepegawaian', [JenisKepegawaianController::class, 'index']);
     Route::post('/jeniskepegawaian/delete_data', [JenisKepegawaianController::class, 'destroy']);

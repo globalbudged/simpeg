@@ -7,7 +7,7 @@ Route::post('/login', [LoginController::class, 'index']);
 // Route::get('/authenticated', [LoginController::class, 'check']);
 
 
-Route::middleware('auth:sanctum')
+Route::middleware(['auth:sanctum', 'cache_response'])
 ->group( function(){
 
     Route::get('/authenticated', [LoginController::class, 'check']);

@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\RuanganController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')
+Route::middleware(['auth:sanctum', 'cache_response'])
 ->group( function(){
     Route::get('/ruangan', [RuanganController::class, 'index']);
     Route::post('/ruangan/delete_data', [RuanganController::class, 'destroy']);

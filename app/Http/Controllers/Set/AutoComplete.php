@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Set;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\v1\JenisKepegawaianResource;
 use App\Models\Bagian;
 use App\Models\Golongan;
 use App\Models\Jabatan;
@@ -17,7 +18,7 @@ class AutoComplete extends Controller
 {
     public function index()
     {
-        $jenisKepegawaian = JenisKepegawaian::all()->makeHidden(['created_at', 'updated_at']);
+        $jenisKepegawaian = JenisKepegawaianResource::collection(JenisKepegawaian::all());
         $pendidikan = Pendidikan::all()->makeHidden(['created_at', 'updated_at']);
         $kategori = Kategori::all()->makeHidden(['created_at', 'updated_at']);
 
