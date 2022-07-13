@@ -27,20 +27,20 @@ class PegawaiController extends Controller
          *  Pegawai::onlyTrashed()->get() 
          * 
          */
-        
+
         // $data = Pegawai::with('user')->orderBy(request()->order_by, request()->sort)
         // ->when(request('q'), function ($search) {
         //     $search->orWhere('nama', 'LIKE', '%' . request()->q . '%');
         // })
         // ->paginate(request('per_page'));
         $data = Pegawai::with('user')
-                ->orderBy(request('order_by'), request('sort'))
-                ->filter(request(['q']))
-                ->paginate(request('per_page'));
+            ->orderBy(request('order_by'), request('sort'))
+            ->filter(request(['q']))
+            ->paginate(request('per_page'));
 
         $response = [
-            'message'=> 'success',
-            'result'=> $data
+            'message' => 'success',
+            'result' => $data
         ];
         return response()->json($response, 201);
     }
@@ -49,9 +49,9 @@ class PegawaiController extends Controller
     {
         $auth = $request->user();
 
-        
-        try{
-            
+
+        try {
+
             DB::beginTransaction();
 
             $new_pass = $request->password;
@@ -59,7 +59,7 @@ class PegawaiController extends Controller
             // DATA BARU
             if (!$request->has('id') || !$request->has('user_id')) {
                 empty($request->input('password')) ?
-                $password = $request->nip : $password = $new_pass;
+                    $password = $request->nip : $password = $new_pass;
 
                 $request->validate([
                     'nip' => 'unique:pegawais',
@@ -74,13 +74,13 @@ class PegawaiController extends Controller
                     'password' => Hash::make($password)
                 ]);
                 $user->pegawai()->create($request->only([
-                    'nip','nik','nama','alamat', 'provinsi','kabkot','kecamatan','kelurahan','kodepos','tempat_lahir','agama','gender','tmt','contact','pendidikan','flag',
+                    'nip', 'nik', 'nama', 'alamat', 'provinsi', 'kabkot', 'kecamatan', 'kelurahan', 'kodepos', 'tempat_lahir', 'agama', 'gender', 'tmt', 'contact', 'pendidikan', 'flag',
                 ]));
 
-                
+
                 $auth->log("Memasukkan data PEGAWAI {$user->name}");
 
-            // UPDATE DATA LAMA
+                // UPDATE DATA LAMA
             } else {
                 $user = User::find($request->user_id);
 
@@ -95,43 +95,43 @@ class PegawaiController extends Controller
                 }
                 // update data pegawai
                 $user->pegawai()->update([
-                    'nip'=>$request->nip,
-                    'nik'=>$request->nik,
-                    'nama'=>$request->nama,
-                    'alamat'=>$request->alamat,
-                    'provinsi'=>$request->provinsi,
-                    'kabkot'=>$request->kabkot,
-                    'kecamatan'=>$request->kecamatan,
-                    'kelurahan'=>$request->kelurahan,
-                    'kodepos'=>$request->kodepos,
-                    'tempat_lahir'=>$request->tempat_lahir,
-                    'tanggal_lahir'=>$request->tanggal_lahir,
-                    'agama'=>$request->agama,
-                    'gender'=>$request->gender,
-                    'tmt'=>$request->tmt,
-                    'contact'=>$request->contact,
-                    'pendidikan'=>$request->pendidikan,
-                    'flag'=>$request->flag,
+                    'nip' => $request->nip,
+                    'nik' => $request->nik,
+                    'nama' => $request->nama,
+                    'alamat' => $request->alamat,
+                    'provinsi' => $request->provinsi,
+                    'kabkot' => $request->kabkot,
+                    'kecamatan' => $request->kecamatan,
+                    'kelurahan' => $request->kelurahan,
+                    'kodepos' => $request->kodepos,
+                    'tempat_lahir' => $request->tempat_lahir,
+                    'tanggal_lahir' => $request->tanggal_lahir,
+                    'agama' => $request->agama,
+                    'gender' => $request->gender,
+                    'tmt' => $request->tmt,
+                    'contact' => $request->contact,
+                    'pendidikan' => $request->pendidikan,
+                    'flag' => $request->flag,
                 ]);
 
                 $auth->log("Merubah data PEGAWAI {$user->name}");
             }
-        
+
             DB::commit();
-           /* Transaction successful. */
-            return response()->json(['message'=>'Success', 'result'=> $request->all()],201);
-        }catch(\Exception $e){       
-        
+            /* Transaction successful. */
+            return response()->json(['message' => 'Success', 'result' => $request->all()], 201);
+        } catch (\Exception $e) {
+
             DB::rollback();
             /* Transaction failed. */
-            return response()->json(['message'=>'Ada Kesalahan'],500);
+            return response()->json(['message' => 'Ada Kesalahan'], 500);
         }
     }
 
     public function edit(Request $request)
     {
-       $data = $request->all();
-       return response()->json(['message'=>'Success', 'result'=> $data],200);
+        $data = $request->all();
+        return response()->json(['message' => 'Success', 'result' => $data], 200);
     }
     public function checking(Request $request)
     {
@@ -139,17 +139,17 @@ class PegawaiController extends Controller
             'nip' => 'unique:pegawais',
             'nik' => 'unique:pegawais',
         ]);
-       return response()->json(['message'=>'save / continue'],201);
+        return response()->json(['message' => 'save / continue'], 201);
     }
 
     public function destroy(Request $request)
-    {   
+    {
         // $data = Pegawai::whereIn('id', $request->id)->get();
         // foreach ($data as $key) {
         //     $old_path = $key->image;
         //     Storage::delete('public/'.$old_path);
         // }
-        
+
         /**
          *  untuk menghapus permanen gunakan kode dibawah ini
          *  Pegawai::whereIn('id', $request->id)->forceDelete();
@@ -160,13 +160,13 @@ class PegawaiController extends Controller
          * 
          */
 
-       
+
         $user = $request->user();
         $id = $request->id;
         $auth = auth()->user()->id;
         if (is_array($id)) {
             $data = Pegawai::whereIn('id', $id);
-            $query = collect($data->get())->filter(function($item) use($auth){
+            $query = collect($data->get())->filter(function ($item) use ($auth) {
                 return $item->user_id !== $auth;
             });
             $userIds = $query->pluck('id');
@@ -178,37 +178,45 @@ class PegawaiController extends Controller
             if (!$user_deletes) {
                 return response()->json([
                     'message' => 'Error on Delete'
-                ],500);
+                ], 500);
             }
-            
-            
+
+
             $user->log("Menghapus Data Pegawai {$nama_user}");
             return response()->json([
-                'result'=> $userIds,
+                'result' => $userIds,
                 'message' => 'Sukses! Data Terhapus Semua'
-            ],200); 
+            ], 200);
         }
 
-        
+
         if ($id !== $auth) {
-            
+
             $data = Pegawai::find($id);
             $del = $data->user()->delete();
             // $del = User::destroy($data->user_id);
             if (!$del) {
                 return response()->json([
                     'message' => 'Error on Delete'
-                ],500);
+                ], 500);
             }
 
             $user->log("Menghapus Data Pegawai {$data->nama}");
             return response()->json([
                 'message' => 'Data sukses terhapus'
-            ],200); 
+            ], 200);
         }
         return response()->json([
             'message' => 'Tidak bisa hapus diri sendiri'
-        ],500);
-        
+        ], 500);
+    }
+
+    public function search_data()
+    {
+        $data = Pegawai::filter(request(['q']))->take(50)->get();
+        return response()->json([
+            'result' => $data,
+            'message' => 'Sukses!'
+        ], 200);
     }
 }

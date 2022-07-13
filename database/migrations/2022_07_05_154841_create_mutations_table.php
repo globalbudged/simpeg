@@ -24,7 +24,7 @@ class CreateMutationsTable extends Migration
             $table->date('tgl_entry')->nullable();
             $table->unsignedBigInteger('jenis_kepegawaian_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->smallInteger('flag')->default(0)->comment('0 : belum valid, 1 : valid');
+            $table->smallInteger('flag')->default(1)->comment('0 : belum valid, 1 : valid');
             $table->timestamps();
         });
     }

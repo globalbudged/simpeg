@@ -19,7 +19,7 @@ class CreateRuangansTable extends Migration
             $table->string('gedung')->nullable();
             $table->string('lantai')->nullable();
             $table->string('ruangan')->nullable();
-            $table->string('flag')->nullable();
+            $table->smallInteger('flag')->default(1)->comment('0:tetap, 1:bisa dihapus');
             $table->timestamps();
         });
     }

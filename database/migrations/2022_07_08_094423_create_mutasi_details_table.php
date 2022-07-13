@@ -17,10 +17,10 @@ class CreateMutasiDetailsTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->foreignId('mutation_id')
-                    ->nullable()
-                    ->constrained()
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
+                ->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->unsignedBigInteger('pegawai_id')->nullable();
             $table->string('alamat')->nullable();
             $table->string('provinsi')->nullable();
@@ -40,8 +40,8 @@ class CreateMutasiDetailsTable extends Migration
             $table->string('kode_skpd_before')->nullable();
             $table->string('nama_skpd_before')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->smallInteger('status')->default(0)->comment('0:data-sementara,  1: data-valid');
-            
+            $table->smallInteger('flag')->default(1)->comment('0:tidak valid,  1: data-valid');
+
             $table->timestamps();
         });
     }

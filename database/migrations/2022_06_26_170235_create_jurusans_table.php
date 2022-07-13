@@ -18,7 +18,7 @@ class CreateJurusansTable extends Migration
             $table->uuid('uuid')->unique();
             $table->string('nama')->nullable();
             $table->string('profesi')->nullable();
-            $table->string('flag')->nullable();
+            $table->smallInteger('flag')->default(1)->comment('0:tetap, 1:bisa dihapus');
             $table->timestamps();
         });
     }

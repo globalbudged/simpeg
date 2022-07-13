@@ -22,7 +22,7 @@ class CacheResponseMidleware
         $key = 'request|'.$request->url().'|'.$request->user()->id;
         if ($method === 'GET') {
             // return response()->json($key);
-            return Cache::remember($key, now()->addMinutes(60), function () use ($next, $request) {
+            return Cache::remember($key, now()->addDay(), function () use ($next, $request) {
                 return $next($request);
             });
         } else {

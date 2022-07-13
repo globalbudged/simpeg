@@ -18,9 +18,9 @@ class CreatePegawaisTable extends Migration
             $table->uuid('uuid')->unique();
             // $table->unsignedBigInteger('user_id')->nullable();
             $table->foreignId('user_id')
-                    ->constrained()
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('nik')->unique()->nullable();
             $table->string('nip')->unique()->nullable();
             $table->string('nama')->nullable();
@@ -36,8 +36,15 @@ class CreatePegawaisTable extends Migration
             $table->enum('gender', ['L', 'P']);
             $table->date('tmt')->nullable();
             $table->string('contact')->nullable();
-            $table->string('pendidikan')->nullable();
-            $table->string('flag')->nullable();
+            $table->string('jenis_kepegawaian_id')->nullable();
+            $table->string('pendidikan_id')->nullable();
+            $table->string('kategori_id')->nullable();
+            $table->string('jurusan_id')->nullable();
+            $table->string('jabatan_id')->nullable();
+            $table->string('golongan_id')->nullable();
+            $table->string('ruangan_id')->nullable();
+            $table->string('bagian_id')->nullable();
+            $table->smallInteger('flag')->default(1)->comment('0:tidak aktif, 1:Aktif');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -17,7 +17,7 @@ class CreateJadwalKerjasTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('jadwal')->nullable();
-            $table->string('flag')->nullable();
+            $table->smallInteger('flag')->default(1)->comment('0:tetap, 1:bisa dihapus');
             $table->timestamps();
         });
     }
