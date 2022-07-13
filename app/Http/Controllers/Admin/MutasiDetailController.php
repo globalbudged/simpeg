@@ -43,7 +43,7 @@ class MutasiDetailController extends Controller
                     ]);
 
                     $pegawai = $user->pegawai()->create($request->only([
-                        'nip', 'nik', 'nama', 'alamat', 'provinsi', 'kabkot', 'kecamatan', 'kelurahan', 'kodepos', 'tempat_lahir', 'agama', 'gender', 'tmt', 'contact', 'flag',
+                        'nip', 'nik', 'nama', 'alamat', 'provinsi', 'kabkot', 'kecamatan', 'kelurahan', 'kodepos', 'tempat_lahir', 'agama', 'gender', 'tmt', 'contact',
                         'pendidikan_id', 'kategori_id', 'jurusan_id', 'jabatan_id', 'golongan_id', 'ruangan_id', 'bagian_id'
                     ]));
                     $pegawai->jenis_kepegawaian_id = $mutasi->jenis_kepegawaian_id;
@@ -92,7 +92,7 @@ class MutasiDetailController extends Controller
                             'gender',
                             'tmt',
                             'contact',
-                            'flag', 'pendidikan_id', 'kategori_id', 'jurusan_id', 'jabatan_id', 'golongan_id', 'ruangan_id', 'bagian_id', 'jenis_kepegawaian_id'
+                            'pendidikan_id', 'kategori_id', 'jurusan_id', 'jabatan_id', 'golongan_id', 'ruangan_id', 'bagian_id', 'jenis_kepegawaian_id'
                         ]
                     ));
 

@@ -34,9 +34,8 @@ class MutationController extends Controller
     public function set_status()
     {
         $data = Mutation::where('uuid', request('uuid'))->first();
-        $data->flag = 1;
         $data->save();
-        $data->mutasi_details()->update(['status' => 1]);
+        // $data->mutasi_details()->update(['status' => 1]);
         return response()->json(['message' => 'success', 'result' => $data], 200);
     }
 

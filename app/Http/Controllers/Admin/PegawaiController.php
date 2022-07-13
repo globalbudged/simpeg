@@ -74,7 +74,7 @@ class PegawaiController extends Controller
                     'password' => Hash::make($password)
                 ]);
                 $user->pegawai()->create($request->only([
-                    'nip', 'nik', 'nama', 'alamat', 'provinsi', 'kabkot', 'kecamatan', 'kelurahan', 'kodepos', 'tempat_lahir', 'agama', 'gender', 'tmt', 'contact', 'pendidikan', 'flag',
+                    'nip', 'nik', 'nama', 'alamat', 'provinsi', 'kabkot', 'kecamatan', 'kelurahan', 'kodepos', 'tempat_lahir', 'agama', 'gender', 'tmt', 'contact', 'pendidikan',
                 ]));
 
 
@@ -110,8 +110,7 @@ class PegawaiController extends Controller
                     'gender' => $request->gender,
                     'tmt' => $request->tmt,
                     'contact' => $request->contact,
-                    'pendidikan' => $request->pendidikan,
-                    'flag' => $request->flag,
+                    'pendidikan' => $request->pendidikan
                 ]);
 
                 $auth->log("Merubah data PEGAWAI {$user->name}");
