@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 class Mutation extends Model
 {
     use HasFactory, HasUuid;
-    
+
     protected $guarded = ['id'];
 
 
 
     public function scopeFilter($search, array $reqs)
     {
-        $search->when($reqs['q']??false, function($search, $query){
+        $search->when($reqs['q'] ?? false, function ($search, $query) {
             return $search->where('nama', 'LIKE', '%' . $query . '%');
         });
     }
@@ -24,6 +24,10 @@ class Mutation extends Model
 
     public function mutasi_details()
     {
-       return $this->hasMany(MutasiDetail::class);
+        return $this->hasMany(MutasiDetail::class);
+    }
+    public function jenis_kepegawaian()
+    {
+        return $this->belongsTo(JenisKepegawaian::class);
     }
 }

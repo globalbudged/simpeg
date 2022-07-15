@@ -18,11 +18,16 @@ class CreateMutationsTable extends Migration
             $table->uuid('uuid')->unique();
             $table->string('kode_mutasi')->nullable();
             $table->string('no_mutasi')->unique()->nullable();
-            $table->string('no_surat')->unique()->nullable();
+            $table->string('no_surat')->nullable();
+            $table->string('dasar_phk')->nullable();
+            $table->string('dasar')->nullable();
+            $table->string('kepada')->nullable();
+            $table->string('untuk')->nullable();
             $table->date('tgl_surat')->nullable();
             $table->date('tgl_mutasi')->nullable();
-            $table->date('tgl_entry')->nullable();
+            $table->date('tgl_phk')->nullable();
             $table->unsignedBigInteger('jenis_kepegawaian_id')->nullable();
+            $table->unsignedBigInteger('jenis_phk_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->smallInteger('flag')->default(1)->comment('0 : belum valid, 1 : valid');
             $table->timestamps();

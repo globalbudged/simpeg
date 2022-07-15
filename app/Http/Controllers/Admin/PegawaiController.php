@@ -212,7 +212,9 @@ class PegawaiController extends Controller
 
     public function search_data()
     {
-        $data = Pegawai::filter(request(['q']))->take(50)->get();
+        $data = Pegawai::where('flag', 1)
+            ->with(['bagian:id,nama', 'golongan:id,nama,keterangan', 'kategori:id,nama', 'jenis:id,nama,kelompok', 'ruangan'])
+            ->filter(request(['q', 'jenis_kepegawaian_id']))->take(50)->get();
         return response()->json([
             'result' => $data,
             'message' => 'Sukses!'

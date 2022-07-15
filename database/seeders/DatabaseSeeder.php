@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Jabatan;
 use App\Models\JenisKepegawaian;
+use App\Models\JenisPhk;
 use App\Models\Kategori;
 use App\Models\Pegawai;
+use App\Models\Satker;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -43,5 +45,11 @@ class DatabaseSeeder extends Seeder
         JenisKepegawaian::create(['nama' => 'PNS', 'kelompok' => 'ASN', 'flag' => 0]);
         JenisKepegawaian::create(['nama' => 'P3K', 'kelompok' => 'ASN', 'flag' => 0]);
         JenisKepegawaian::create(['nama' => 'HONORER', 'kelompok' => 'NON ASN', 'flag' => 0]);
+
+        JenisPhk::create(['nama' => 'MENGUNDURKAN DIRI', 'flag' => 0]);
+        JenisPhk::create(['nama' => 'DIBERHENTIKAN', 'flag' => 0]);
+
+        Satker::create(['nama' => 'DINAS PENDIDIKAN', 'flag' => 0]);
+        Satker::create(['nama' => 'DINAS PERHUBUNGAN', 'flag' => 0]);
     }
 }

@@ -28,7 +28,7 @@ class MutationController extends Controller
     public function data_by_uuid()
     {
         $data = Mutation::where('uuid', request('uuid'))
-            ->with(['mutasi_details', 'mutasi_details.pegawai'])->first();
+            ->with(['mutasi_details', 'mutasi_details.pegawai', 'jenis_kepegawaian'])->first();
         return response()->json(['message' => 'success!', 'result' => $data], 200);
     }
     public function set_status()
@@ -47,7 +47,7 @@ class MutationController extends Controller
 
             DB::beginTransaction();
             $data = Mutation::create(
-                $request->only('no_mutasi', 'kode_mutasi', 'no_surat', 'tgl_surat', 'tgl_mutasi', 'jenis_kepegawaian_id')
+                $request->only('no_mutasi', 'kode_mutasi', 'no_surat', 'tgl_surat', 'tgl_mutasi', 'jenis_kepegawaian_id', 'tgl_phk', 'jenis_phk_id', 'dasar_phk', 'dasar', 'kepada', 'untuk')
             );
             $data->user_id = $auth->id;
             $data->save();

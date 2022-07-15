@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\PegawaiController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum', 'cache_response'])
+Route::middleware(['auth:sanctum'])
     ->group(function () {
         Route::get('/pegawai', [PegawaiController::class, 'index']);
         Route::post('/pegawai/delete_data', [PegawaiController::class, 'destroy']);
@@ -13,5 +13,11 @@ Route::middleware(['auth:sanctum', 'cache_response'])
         Route::post('/pegawai/checking', [PegawaiController::class, 'checking']);
         Route::get('/pegawai/search', [PegawaiController::class, 'search_data']);
     });
+
+// tanpa cache
+// Route::middleware(['auth:sanctum'])
+//     ->group(function () {
+//         Route::get('/pegawai/search', [PegawaiController::class, 'search_data']);
+//     });
 
 // Route::get('/users', [UserController::class, 'index']);

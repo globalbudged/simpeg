@@ -9,6 +9,7 @@ use App\Models\Bagian;
 use App\Models\Golongan;
 use App\Models\Jabatan;
 use App\Models\JenisKepegawaian;
+use App\Models\JenisPhk;
 use App\Models\Jurusan;
 use App\Models\Kategori;
 use App\Models\Pendidikan;
@@ -21,16 +22,18 @@ class AutoComplete extends Controller
         $jenisKepegawaian = JenisKepegawaianResource::collection(JenisKepegawaian::all());
         $pendidikan = Pendidikan::all()->makeHidden(['created_at', 'updated_at']);
         $kategori = Kategori::all()->makeHidden(['created_at', 'updated_at']);
+        $jenis_phk = JenisPhk::all()->makeHidden(['created_at', 'updated_at']);
 
         $data = [
-            'jenis_kepegawaian'=> $jenisKepegawaian,
-            'pendidikans'=> $pendidikan,
-            'kategoris'=> $kategori,
+            'jenis_kepegawaian' => $jenisKepegawaian,
+            'pendidikans' => $pendidikan,
+            'kategoris' => $kategori,
+            'jenis_phks' => $jenis_phk,
         ];
 
         $response = [
-            'message'=> 'success',
-            'result'=> $data
+            'message' => 'success',
+            'result' => $data
         ];
         return response()->json($response, 200);
     }
@@ -40,8 +43,8 @@ class AutoComplete extends Controller
         $data = Jurusan::all()->makeHidden(['created_at', 'updated_at']);
 
         $response = [
-            'message'=> 'success',
-            'result'=> $data
+            'message' => 'success',
+            'result' => $data
         ];
         return response()->json($response, 200);
     }
@@ -50,8 +53,8 @@ class AutoComplete extends Controller
         $data = Jabatan::all()->makeHidden(['created_at', 'updated_at']);
 
         $response = [
-            'message'=> 'success',
-            'result'=> $data
+            'message' => 'success',
+            'result' => $data
         ];
         return response()->json($response, 200);
     }
@@ -60,8 +63,8 @@ class AutoComplete extends Controller
         $data = Golongan::all()->makeHidden(['created_at', 'updated_at']);
 
         $response = [
-            'message'=> 'success',
-            'result'=> $data
+            'message' => 'success',
+            'result' => $data
         ];
         return response()->json($response, 200);
     }
@@ -70,8 +73,8 @@ class AutoComplete extends Controller
         $data = Ruangan::all()->makeHidden(['created_at', 'updated_at']);
 
         $response = [
-            'message'=> 'success',
-            'result'=> $data
+            'message' => 'success',
+            'result' => $data
         ];
         return response()->json($response, 200);
     }
@@ -80,8 +83,8 @@ class AutoComplete extends Controller
         $data = Bagian::all()->makeHidden(['created_at', 'updated_at']);
 
         $response = [
-            'message'=> 'success',
-            'result'=> $data
+            'message' => 'success',
+            'result' => $data
         ];
         return response()->json($response, 200);
     }

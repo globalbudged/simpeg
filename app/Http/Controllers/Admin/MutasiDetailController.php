@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MutasiDetail;
 use App\Models\Mutation;
 use App\Models\Pegawai;
+use App\Models\PindahRuang;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -118,6 +119,48 @@ class MutasiDetailController extends Controller
                         )
                     );
                 }
+            } elseif ($kode_mutasi === 'MK') { // if request->mutasi Keluar
+                $pegawai = Pegawai::find($request->id);
+                $pegawai->flag = 0;
+                $pegawai->save();
+
+                $details = $mutasi->mutasi_details()->create(
+                    $request->only(
+                        [
+                            'alamat', 'provinsi', 'kabkot', 'kecamatan', 'kelurahan',
+                            'pendidikan_id', 'kategori_id', 'jurusan_id', 'jabatan_id',
+                            'golongan_id', 'ruangan_id', 'bagian_id', 'kode_skpd', 'nama_skpd',
+                            'kode_skpd_before', 'nama_skpd_before'
+                        ]
+                    )
+                );
+                $details->jenis_kepegawaian_id = $mutasi->jenis_kepegawaian_id;
+                $details->pegawai_id = $pegawai->id;
+                $details->save();
+            } else {
+                $pegawai = Pegawai::find($request->id);
+                $details = $mutasi->mutasi_details()->create(
+                    $request->only(
+                        [
+                            'alamat', 'provinsi', 'kabkot', 'kecamatan', 'kelurahan',
+                            'pendidikan_id', 'kategori_id', 'jurusan_id', 'jabatan_id',
+                            'golongan_id', 'ruangan_id', 'bagian_id', 'kode_skpd', 'nama_skpd',
+                            'kode_skpd_before', 'nama_skpd_before'
+                        ]
+                    )
+                );
+                $details->jenis_kepegawaian_id = $mutasi->jenis_kepegawaian_id;
+                $details->pegawai_id = $pegawai->id;
+                $details->save();
+                $details->pindah_ruang()->create(
+                    [
+                        'pegawai_id' => $pegawai->id,
+                        'ruangan_id_before' => $request->ruangan_id,
+                        'ruangan_id_after' => $request->ruangan_id_after,
+                    ]
+                );
+                $pegawai->ruangan_id = $request->ruangan_id_after;
+                $pegawai->save();
             }
             DB::commit();
             /* Transaction successful. */
@@ -145,6 +188,50 @@ class MutasiDetailController extends Controller
         }
 
         $user->log("Menghapus Data Pegawai {$pegawai->nama}");
+
+        return response()->json([
+            'message' => 'Data sukses terhapus'
+        ], 200);
+    }
+
+    public function del_mutasi_keluar(Request $request)
+    {
+        $user = $request->user();
+        $details = MutasiDetail::find($request->id);
+        $pegawai = Pegawai::find($details->pegawai_id);
+        $pegawai->flag = 1;
+        $pegawai->save();
+        $del = $details->delete();
+
+        if (!$del) {
+            return response()->json([
+                'message' => 'Error on Delete'
+            ], 500);
+        }
+
+        $user->log("Menghapus Details Mutasi Keluar {$pegawai->nama}");
+
+        return response()->json([
+            'message' => 'Data sukses terhapus'
+        ], 200);
+    }
+    public function del_mutasi_antar(Request $request)
+    {
+        $user = $request->user();
+        $details = MutasiDetail::find($request->id);
+        $pegawai = Pegawai::find($details->pegawai_id);
+        $ruang = PindahRuang::where('mutasi_detail_id', $details->id)->first();
+        $pegawai->ruangan_id = $ruang->ruangan_id_before;
+        $pegawai->save();
+        $del = $details->delete();
+
+        if (!$del) {
+            return response()->json([
+                'message' => 'Error on Delete'
+            ], 500);
+        }
+
+        $user->log("Menghapus Details Mutasi Keluar {$pegawai->nama}");
 
         return response()->json([
             'message' => 'Data sukses terhapus'

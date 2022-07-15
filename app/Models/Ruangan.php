@@ -11,9 +11,14 @@ class Ruangan extends Model
     use HasFactory, HasUuid;
     protected $guarded = ['id'];
 
+    public function pegawai()
+    {
+        return $this->hasMany(Pegawai::class);
+    }
+
     public function scopeFilter($search, array $reqs)
     {
-        $search->when($reqs['q']??false, function($search, $query){
+        $search->when($reqs['q'] ?? false, function ($search, $query) {
             return $search->where('gedung', 'LIKE', '%' . $query . '%');
         });
     }

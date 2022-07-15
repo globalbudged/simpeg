@@ -17,11 +17,14 @@ class CacheResponseMidleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // Cache::flush();
+        // return response()->json($request->has('q'));
         $method = $request->method();
-        $key = 'request|'.$request->url().'|'.$request->user()->id;
+        $key = 'request|' . $request->url() . '|' . $request->user()->id;
         if ($method === 'GET') {
-            // return response()->json($key);
+            if ($request->has('q') || $request->has('page')) {
+                Cache::flush();
+                return $next($request);
+            }
             return Cache::remember($key, now()->addDay(), function () use ($next, $request) {
                 return $next($request);
             });
@@ -29,7 +32,7 @@ class CacheResponseMidleware
             Cache::flush();
             return $next($request);
         }
-        
+
 
         // return $next($request);
     }
