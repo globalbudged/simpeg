@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PegawaiResource;
 use App\Models\Pegawai;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,10 +26,13 @@ class PercobaanController extends Controller
         // //     });
         // return response()->json($userIds);
 
-        $collection = collect(Pegawai::all());
-        $flag = $collection->pluck('flag');
-        $counted = $flag->countBy();
-
-        return response()->json($counted);
+        $collection = PegawaiResource::collection(Pegawai::with(['jenis:id,nama,kelompok'])->get());
+        $all_data = $collection->filter(function ($item) {
+            return $item->flag > 0;
+        })->count();
+        $honorer = $collection->filter(function ($item) {
+            return $item->jenis->id === 3;
+        })->count();
+        return response()->json($honorer);
     }
 }
